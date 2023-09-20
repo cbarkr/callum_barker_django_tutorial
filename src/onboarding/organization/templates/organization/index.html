@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    {% if organization_list %}
+    <ul>
+      {% for o in organization_list %}
+      <li>
+        {{ o }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No organizations are available.</p>
+    {% endif %}
+  </body>
+</html>
