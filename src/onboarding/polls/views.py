@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-from django.db.models import Count
+from django.db.models import Count, F
 from .models import Choice, Question
 
 
@@ -51,7 +51,7 @@ def vote(request, question_id) -> HttpResponse | HttpResponseRedirect:
         # Route back to voting form
         return render(request, "polls/detail.html", context)
     else:
-        selected_choice.votes += 1
+        selected_choice.votes = F("votes") + 1
         selected_choice.save()
 
     # Redirect
