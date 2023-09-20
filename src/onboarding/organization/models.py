@@ -17,7 +17,7 @@ class Location(models.Model):
 
 class Organization(models.Model):
     """
-    Each Organizations has only one location
+    Each Organization has only one location
     """
     name = models.CharField(max_length=200)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
