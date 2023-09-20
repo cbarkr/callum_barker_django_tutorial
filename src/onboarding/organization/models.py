@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 
 class Location(models.Model):
     """
@@ -46,11 +46,8 @@ class Employee(models.Model):
     Note: Assumes that employees are employed by a specific office
     Note: Wording is unclear as to whether or not we are creating the Employee table itself
     """
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-    email = models.CharField(max_length=200)
-
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.user.first_name} {self.user.last_name}"

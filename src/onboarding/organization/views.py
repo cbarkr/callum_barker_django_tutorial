@@ -31,16 +31,12 @@ def detail(request, id) -> JsonResponse:
         offices_list = []
 
         for office in offices:
-            # Get employees from office, concatenate their firstname and lastname as "name"
-            employees = office.employee_set.annotate(
-                name=Concat(
-                    "first_name", Value(" "), "last_name", output_field=CharField()
-                )
-            ).all()
-
             # Add employee names and emails to office employee list
             office_employees_dict: dict[str, dict[str, Any]] = {
-                "employees": [{"name": e.name, "email": e.email} for e in employees]
+                "employees": [
+                    {"name": str(e), "email": e.user.email}
+                    for e in office.employee_set.select_related("user").all()
+                ]
             }
 
             # Get office info as a dict, exclude IDs
