@@ -33,7 +33,7 @@ class Office(models.Model):
     """
     name = models.CharField(max_length=200)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="offices")
     phone_no = models.CharField(max_length=200)
 
     def __str__(self) -> str:
@@ -47,7 +47,7 @@ class Employee(models.Model):
     Note: Wording is unclear as to whether or not we are creating the Employee table itself
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    office = models.ForeignKey(Office, on_delete=models.CASCADE)
+    office = models.ForeignKey(Office, on_delete=models.CASCADE, related_name="employees")
 
     def __str__(self) -> str:
         return f"{self.user.first_name} {self.user.last_name}"

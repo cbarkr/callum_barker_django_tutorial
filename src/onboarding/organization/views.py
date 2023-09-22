@@ -2,8 +2,6 @@ from typing import Any
 from django.forms import model_to_dict
 from django.http import JsonResponse, Http404
 from django.core.serializers import serialize
-from django.db.models import CharField, Value
-from django.db.models.functions import Concat
 from .models import Organization
 
 
@@ -14,28 +12,31 @@ def index(request) -> JsonResponse:
 
 
 def detail(request, id) -> JsonResponse:
+    """
+    Get organization by ID, return it's name, phone_no, location, offices, and employees of each office
+
+    Queries: 5
+    """
     organization: Organization | None = (
         Organization.objects.filter(pk=id)
         .select_related("location")  # Select organization location
-        .prefetch_related("office_set")  # Prefetch organization offices
+        .prefetch_related("offices", "offices__employees")  # Prefetch organization offices and employees
         .first()  # first() is slower than [0] or [:1] but it swallows exceptions for us
     )
 
     if organization:
-        # Get offices, select their locations, and prefetch employees belonging to each office
-        offices = (
-            organization.office_set.select_related("location")
-            .prefetch_related("employee_set")
-            .all()
-        )
         offices_list = []
 
+        offices = organization.offices.select_related("location").all()
+
         for office in offices:
+            employees = office.employees.select_related("user").all()
+
             # Add employee names and emails to office employee list
             office_employees_dict: dict[str, dict[str, Any]] = {
                 "employees": [
                     {"name": str(e), "email": e.user.email}
-                    for e in office.employee_set.select_related("user").all()
+                    for e in employees
                 ]
             }
 
