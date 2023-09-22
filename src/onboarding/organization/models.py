@@ -20,7 +20,7 @@ class Organization(models.Model):
     Each Organization has only one location
     """
     name = models.CharField(max_length=200)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.OneToOneField(Location, on_delete=models.CASCADE)
     phone_no = models.CharField(max_length=200)
 
     def __str__(self) -> str:
@@ -32,7 +32,7 @@ class Office(models.Model):
     Each Office has only one location and belongs to only one organization
     """
     name = models.CharField(max_length=200)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.OneToOneField(Location, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     phone_no = models.CharField(max_length=200)
 
