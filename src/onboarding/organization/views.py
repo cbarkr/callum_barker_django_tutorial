@@ -20,7 +20,9 @@ def detail(request, id) -> JsonResponse:
     organization: Organization | None = (
         Organization.objects.filter(pk=id)
         .select_related("location")  # Select organization location
-        .prefetch_related("offices", "offices__employees")  # Prefetch organization offices and employees
+        .prefetch_related(
+            "offices", "offices__employees"
+        )  # Prefetch organization offices and employees
         .first()  # first() is slower than [0] or [:1] but it swallows exceptions for us
     )
 
@@ -35,8 +37,7 @@ def detail(request, id) -> JsonResponse:
             # Add employee names and emails to office employee list
             office_employees_dict: dict[str, dict[str, Any]] = {
                 "employees": [
-                    {"name": str(e), "email": e.user.email}
-                    for e in employees
+                    {"name": str(e), "email": e.user.email} for e in employees
                 ]
             }
 
