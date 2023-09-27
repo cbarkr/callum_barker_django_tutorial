@@ -1,3 +1,4 @@
 ## TODO
-- [ ] Serializer for organizations
-- [ ] Extend with DRF
+- [X] Serializer for organizations
+- [X] Extend with DRF
+- [ ] Add create() methods to each serializer?
