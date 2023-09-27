@@ -11,6 +11,9 @@ class Location(models.Model):
     postal_code = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
 
+    class Meta:
+        ordering: list[str] = ['city']
+
     def __str__(self) -> str:
         return f"{self.address}, {self.city}, {self.country}"
 
@@ -22,6 +25,9 @@ class Organization(models.Model):
     name = models.CharField(max_length=200)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
     phone_no = models.CharField(max_length=200)
+
+    class Meta:
+        ordering: list[str] = ['name']
 
     def __str__(self) -> str:
         return self.name
@@ -36,6 +42,9 @@ class Office(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="offices")
     phone_no = models.CharField(max_length=200)
 
+    class Meta:
+        ordering: list[str] = ['name']
+
     def __str__(self) -> str:
         return f"{self.organization.name} {self.name}"
 
@@ -47,6 +56,7 @@ class Employee(models.Model):
     Note: Wording is unclear as to whether or not we are creating the Employee table itself
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, on_delete=models.CASCADE, related_name="employees")
 
     def __str__(self) -> str:

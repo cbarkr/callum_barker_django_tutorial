@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import URLResolver, path, include
 
 urlpatterns: list[URLResolver] = [
+    path("", include("organization.urls")),
     path("admin/", admin.site.urls),
     path("polls/", include("polls.urls")),
-    path("organization/", include("organization.urls")),
 ]
