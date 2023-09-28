@@ -1,9 +1,5 @@
-import secrets
-
 from rest_framework import serializers
 from organization.models import Organization, Office, Location, Employee
-from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
 
 
 class LocationSerializer(serializers.ModelSerializer):
