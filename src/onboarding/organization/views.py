@@ -18,29 +18,15 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
-    def perform_create(self, serializer) -> None:
-        serializer.save()
-
-
 class OfficeViewSet(viewsets.ModelViewSet):
     queryset = Office.objects.all()
     serializer_class = OfficeSerializer
-
-    def perform_create(self, serializer) -> None:
-        serializer.save()
-
 
 class LocationViewSet(viewsets.ModelViewSet):
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
 
-    def perform_create(self, serializer) -> None:
-        serializer.save()
-
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
-
-    def perform_create(self, serializer) -> None:
-        serializer.save()
